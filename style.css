@@ -10,3 +10,10 @@ h2 {
   font-weight: 800;
   font-style: normal;
 }
+.navigation-link {
+  text-decorarion: none;
+}
+.bottom-navbar {
+  margin-bottom: 50px;
+  width: 93%;
+}
