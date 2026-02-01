@@ -1,19 +1,28 @@
-.Title {
-  font-family: "Montserrat", sans-serif;
-  font-optical-sizing: auto;
-  font-weight: 800;
-  font-style: normal;
+        .bottom-navbar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 85%;
+  background: #1a1a1a;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 10px 0;
+  box-shadow: 0 -2px 6px rgba(0,0,0,0.2);
+  z-index: 1000;
+ margin-bottom: 20px;
+  margin-left: 7%;
+        border-radius: 10px;
 }
-h2 {
-  font-famiy: "Montserrat", sans-serif;
-  font-optical-sizing: auto;
-  font-weight: 800;
-  font-style: normal;
-}
-.navigation-link {
-  text-decorarion: none;
-}
-.bottom-navbar {
-  margin-bottom: 50px;
-  width: 93%;
-}
+      .Title {
+        font-famiy: "Montserrat", sans-serif;
+        font-optical-sizing: auto;
+        font-weight: 800;
+        font-style: normal;
+      }
+      .subtext{
+        font-famiy: "Montserrat", sans-serif;
+        font-optical-sizing: auto;
+        font-weight: 800;
+        font-style: normal;
+      }
