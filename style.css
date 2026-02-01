@@ -1,7 +1,8 @@
-        .bottom-navbar {
+.bottom-navbar {
   position: fixed;
-  bottom: 0;
-  left: 0;
+  bottom: 20px; /* J'ai déplacé la marge ici pour décoller la barre du bas */
+  left: 50%;
+  transform: translateX(-50%); /* Technique parfaite pour centrer un élément fixed */
   width: 85%;
   background: #1a1a1a;
   display: flex;
@@ -10,19 +11,13 @@
   padding: 10px 0;
   box-shadow: 0 -2px 6px rgba(0,0,0,0.2);
   z-index: 1000;
- margin-bottom: 20px;
-  margin-left: 7%;
-        border-radius: 10px;
+  border-radius: 10px;
 }
-      .Title {
-        font-famiy: "Montserrat", sans-serif;
-        font-optical-sizing: auto;
-        font-weight: 800;
-        font-style: normal;
-      }
-      .subtext{
-        font-famiy: "Montserrat", sans-serif;
-        font-optical-sizing: auto;
-        font-weight: 800;
-        font-style: normal;
-      }
+
+/* On regroupe les styles communs pour être plus efficace */
+.Title, .subtext {
+  font-family: "Montserrat", sans-serif; /* Correction du 'l' manquant */
+  font-optical-sizing: auto;
+  font-weight: 800;
+  font-style: normal;
+}
