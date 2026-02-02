@@ -28,6 +28,36 @@
       <a href="#settings"><i class="fas fa-cog"></i><span>Réglages</span></a>
       <a href="#logout"><i class="fas fa-right-to-bracket"></i><span>Déconnexion</span></a>
     </div>
+    <script>
+      import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.x.x/firebase-auth.js";
+
+const auth = getAuth();
+const loggedInView = document.getElementById('auth-logged-in');
+const loggedOutView = document.getElementById('auth-logged-out');
+const logoutButton = document.getElementById('btn-logout');
+
+// 1. Surveillance de l'état de connexion
+onAuthStateChanged(auth, (user) => {
+  if (user) {
+    // L'utilisateur est connecté
+    loggedInView.style.display = 'block';
+    loggedOutView.style.display = 'none';
+  } else {
+    // L'utilisateur est déconnecté
+    loggedInView.style.display = 'none';
+    loggedOutView.style.display = 'block';
+  }
+});
+
+// 2. Logique du bouton de déconnexion
+logoutButton.addEventListener('click', () => {
+  signOut(auth).then(() => {
+    console.log("Déconnecté avec succès");
+  }).catch((error) => {
+    console.error("Erreur de déconnexion", error);
+  });
+});
+    </script>
     <style>
       .bottom-navbar {
   position: fixed;
