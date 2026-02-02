@@ -15,6 +15,11 @@
 </div>
   </head>
   <body>
+    <header class="top-bar">
+  <div id="auth-logged-out">
+    <button onclick="login()" class="btn-commencer">Commencer</button>
+  </div>
+</header>
     <h1 class="Title">Bienvenue sur le site du club Rubik's Cube®</h1>
     <h2 class="subtext">Découvrez comment résoudre ce casse-tête mythique</h2>
     <div class="bottom-navbar">
@@ -23,7 +28,9 @@
       <a href="/Mosaique"><i class="Ini Ini-home-2"></i><span>Mosaique</span></a>
       <a href="/profile"><i class="fas fa-user"></i><span>Profil</span></a>
       <a href="#settings"><i class="fas fa-cog"></i><span>Réglages</span></a>
-     <button id="btn-logout" class="btn-deconnexion">Déconnexion</button>
+    <div id="auth-logged-in" style="display: none;">
+    <button id="btn-logout" class="btn-deconnexion">Déconnexion</button>
+  </div>
     </div>
     <script>
       import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.x.x/firebase-auth.js";
