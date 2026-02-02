@@ -35,7 +35,16 @@ a {
   font-weight: 800;
   font-style: normal;
  text-decoration: none;
-  color: #ffffff;
+  color: white; 
+  transition: color 0.3s ease; /* Pour que le changement soit fluide et pas brutal */
+  cursor: pointer;
+}
+a:hover {
+  color: #007AFF; /* Bleu style Apple */
+}
+a:active {
+  color: #0056b3; /* Un bleu plus foncé quand on appuie */
+  transform: scale(0.95);
 }
 /* On regroupe les styles communs pour être plus efficace */
 .Title, .subtext {
