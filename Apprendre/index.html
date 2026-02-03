@@ -1,78 +1,36 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <title>Club Rubik's Cube : Apprendre</title>
-  
-  </head>
-  <body>
-        <div class="bottom-navbar">
-      <a href="index.html"><i class="lni lni-home-2"></i><span>Accueil</span></a>
-      <a href="/Apprendre"><i class="lni lni-home-2"></i><span>Apprendre</span></a>
-      <a href="/Mosaique"><i class="Ini Ini-home-2"></i><span>Mosaique</span></a>
-      <a href="/profile"><i class="fas fa-user"></i><span>Profil</span></a>
-      <a href="#settings"><i class="fas fa-cog"></i><span>Réglages</span></a>
-      <a href="#logout"><i class="fas fa-right-to-bracket"></i><span>Déconnexion</span></a>
-    </div>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Espace Apprendre</title>
+    <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+    <div id="main-content"></div>
+
     <script type="module">
-      import { auth, onAuthStateChanged } from '../app.js'; // Ajuste le chemin vers ton app.js
+        import { auth, onAuthStateChanged } from '../app.js';
 
-onAuthStateChanged(auth, (user) => {
-    // 1. On vérifie s'il y a un utilisateur
-    // 2. On vérifie si son email est le bon
-    if (!user || !user.email.endsWith('@savio-lambersart.com')) {
-        // Si non connecté ou mauvais mail -> Redirection immédiate vers le login
-        alert("Vous devez être connecté avec votre compte Savio pour accéder à cette page.");
-        window.location.replace('../login.html');
-    } else {
-        // L'utilisateur est autorisé
-        console.log("Accès autorisé à l'espace Apprendre");
-        // Optionnel : afficher le contenu de la page (si tu l'avais caché en CSS)
-        document.body.style.display = 'block';
-    }
-});
+        const container = document.getElementById('main-content');
+
+        onAuthStateChanged(auth, (user) => {
+            if (user && user.email.endsWith('@savio-lambersart.com')) {
+                // Succès : On injecte le HTML
+                container.innerHTML = `
+                    <div style="padding:40px; text-align:center;">
+                        <h1>Espace Apprendre</h1>
+                        <p>Bienvenue, <strong>${user.displayName}</strong> !</p>
+                        <hr>
+                        <div class="cours">
+                            <h3>Vos cours sont disponibles ici.</h3>
+                        </div>
+                    </div>
+                `;
+            } else {
+                // Échec ou déconnecté : Redirection
+                window.location.replace('../login.html');
+            }
+        });
     </script>
-    <style>
-      .bottom-navbar {
-  position: fixed;
-  bottom: 20px; /* J'ai déplacé la marge ici pour décoller la barre du bas */
-  left: 50%;
-  transform: translateX(-50%); /* Technique parfaite pour centrer un élément fixed */
-  width: 85%;
-  background: #1a1a1a;
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  padding: 10px 0;
-  box-shadow: 0 -2px 6px rgba(0,0,0,0.2);
-  z-index: 1000;
-  border-radius: 10px;
-}
-
-a {
-  font-family: "Montserrat", sans-serif;
-  font-optical-sizing: auto;
-  font-weight: 800;
-  font-style: normal;
- text-decoration: none;
-  color: white; 
-  transition: color 0.3s ease; /* Pour que le changement soit fluide et pas brutal */
-  cursor: pointer;
-}
-a:hover {
-  color: #007AFF; /* Bleu style Apple */
-}
-a:active {
-  color: #0056b3; /* Un bleu plus foncé quand on appuie */
-  transform: scale(0.95);
-}
-/* On regroupe les styles communs pour être plus efficace */
-.Title, .subtext {
-  font-family: "Montserrat", sans-serif; /* Correction du 'l' manquant */
-  font-optical-sizing: auto;
-  font-weight: 800;
-  font-style: normal;
-}
-   
-    </style>
-  </body>
+</body>
 </html>
