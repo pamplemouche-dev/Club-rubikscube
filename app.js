@@ -4,7 +4,7 @@ import {
     updateProfile, onAuthStateChanged, signOut 
 } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
-firebaseConfig = {
+const firebaseConfig = {
   apiKey: "AIzaSyB9CSBSLpB_DnXmBcfGm_h_cGGFYVYn2nA",
   authDomain: "club-rubik.firebaseapp.com",
   projectId: "club-rubik",
