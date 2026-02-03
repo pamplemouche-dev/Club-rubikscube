@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Inscription - Savio</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-card">
+            <h2>Créer un compte</h2>
+            <form id="register-form">
+                <input type="email" id="reg-email" placeholder="Email @savio-lambersart.com" required>
+                <input type="password" id="reg-password" placeholder="Mot de passe (6 car. min)" required>
+                <button type="submit" class="btn-commencer" style="width:100%; margin-top:10px;">S'inscrire</button>
+            </form>
+            <p style="margin-top:20px;">
+                Déjà inscrit ? <a href="login.html" style="color:#4285F4;">Se connecter</a>
+            </p>
+        </div>
+    </div>
+
+    <script type="module">
+        import { registerEmail } from './app.js';
+        document.getElementById('register-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const email = document.getElementById('reg-email').value;
+            const pass = document.getElementById('reg-password').value;
+            registerEmail(email, pass);
+        });
+    </script>
+</body>
+</html>
