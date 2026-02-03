@@ -9,24 +9,40 @@
     <div class="login-container">
         <div class="login-card">
             <h2>Créer un compte</h2>
+            <p style="font-size:0.8rem; color:gray; margin-bottom:15px;">
+                Le nom doit correspondre à votre email (ex: Jean Dupont pour jeandupont@...)
+            </p>
             <form id="register-form">
+                <input type="text" id="reg-name" placeholder="Nom Prénom" required>
                 <input type="email" id="reg-email" placeholder="Email @savio-lambersart.com" required>
                 <input type="password" id="reg-password" placeholder="Mot de passe (6 car. min)" required>
-                <button type="submit" class="btn-commencer" style="width:100%; margin-top:10px;">S'inscrire</button>
+                <button type="submit" class="btn-commencer" style="width:100%;">S'inscrire</button>
             </form>
-            <p style="margin-top:20px;">
-                Déjà inscrit ? <a href="login.html" style="color:#4285F4;">Se connecter</a>
-            </p>
+            <p id="error-msg" style="color:red; display:none; font-size:0.8rem; margin-top:10px;"></p>
         </div>
     </div>
 
     <script type="module">
-        import { registerEmail } from './app.js';
+        import { registerEmail, nettoyerTexte } from './app.js';
+
         document.getElementById('register-form').addEventListener('submit', (e) => {
             e.preventDefault();
+            const name = document.getElementById('reg-name').value;
             const email = document.getElementById('reg-email').value;
             const pass = document.getElementById('reg-password').value;
-            registerEmail(email, pass);
+            const errorElement = document.getElementById('error-msg');
+
+            // Extraction de la partie nom de l'email
+            const emailPrefix = email.split('@')[0];
+
+            // Comparaison "souple"
+            if (nettoyerTexte(name) !== nettoyerTexte(emailPrefix)) {
+                errorElement.innerText = "❌ Le nom saisi ne correspond pas à l'adresse email.";
+                errorElement.style.display = "block";
+            } else {
+                errorElement.style.display = "none";
+                registerEmail(email, pass, name);
+            }
         });
     </script>
 </body>
