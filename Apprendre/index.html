@@ -12,6 +12,24 @@
       <a href="#settings"><i class="fas fa-cog"></i><span>Réglages</span></a>
       <a href="#logout"><i class="fas fa-right-to-bracket"></i><span>Déconnexion</span></a>
     </div>
+    <script>
+      import { auth, onAuthStateChanged } from '../app.js'; // Ajuste le chemin vers ton app.js
+
+onAuthStateChanged(auth, (user) => {
+    // 1. On vérifie s'il y a un utilisateur
+    // 2. On vérifie si son email est le bon
+    if (!user || !user.email.endsWith('@savio-lambersart.com')) {
+        // Si non connecté ou mauvais mail -> Redirection immédiate vers le login
+        alert("Vous devez être connecté avec votre compte Savio pour accéder à cette page.");
+        window.location.replace('../login.html');
+    } else {
+        // L'utilisateur est autorisé
+        console.log("Accès autorisé à l'espace Apprendre");
+        // Optionnel : afficher le contenu de la page (si tu l'avais caché en CSS)
+        document.body.style.display = 'block';
+    }
+});
+    </script>
     <style>
       .bottom-navbar {
   position: fixed;
@@ -52,6 +70,9 @@ a:active {
   font-optical-sizing: auto;
   font-weight: 800;
   font-style: normal;
+}
+      body {
+    display: none; /* On cache tout par défaut */
 }
     </style>
   </body>
