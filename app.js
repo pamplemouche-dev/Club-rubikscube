@@ -59,3 +59,5 @@ onAuthStateChanged(auth, (user) => {
         if (bottomBarAuth) bottomBarAuth.style.display = 'none';
     }
 });
+// À la fin de app.js
+export { auth, onAuthStateChanged, registerEmail, loginEmail, nettoyerTexte };
