@@ -1,58 +1,71 @@
-// 1. Importation des fonctions nécessaires depuis le SDK Firebase
+// 1. Importation des modules Firebase
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+import { 
+    getAuth, 
+    signInWithPopup, 
+    GoogleAuthProvider, 
+    onAuthStateChanged, 
+    signOut 
+} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
-// 2. Ta configuration Firebase (À RÉCUPÉRER SUR TA CONSOLE FIREBASE)
+// 2. Ta configuration Firebase (À compléter avec tes clés)
 const firebaseConfig = {
-    apiKey: "TON_API_KEY",
-    authDomain: "TON_PROJET.firebaseapp.com",
-    projectId: "TON_PROJET_ID",
-    storageBucket: "TON_PROJET.appspot.com",
-    messagingSenderId: "TON_SENDER_ID",
-    appId: "TON_APP_ID"
+    apiKey: "AIzaSyB9CSBSLpB_DnXmBcfGm_h_cGGFYVYn2nA",
+    authDomain: "club-rubik.firebaseapp.com",
+    projectId: "club-rubik",
+    storageBucket: "club-rubik.firebasestorage.app",
+    messagingSenderId: "660354395142",
+    appId: "1:660354395142:web:662c0646a37d24755ea787",
+    measurementId: "G-WQRTHDM9B8"
 };
 
 // 3. Initialisation de Firebase
 const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-const provider = new GoogleAuthProvider();
+export const auth = getAuth(app);
+export const provider = new GoogleAuthProvider();
 
-// Éléments HTML
-const loggedOutDiv = document.getElementById('auth-logged-out');
-const loggedInDiv = document.getElementById('auth-logged-in');
-const btnLogin = document.getElementById('btn-login');
+// Exportation des fonctions pour les utiliser dans login.html
+export { signInWithPopup, signOut, onAuthStateChanged };
+
+// 4. Sélection des éléments de l'interface
+const topBarAuth = document.getElementById('auth-logged-out'); // Div "Commencer" en haut
+const bottomBarAuth = document.getElementById('auth-logged-in'); // Div "Déconnexion" en bas
 const btnLogout = document.getElementById('btn-logout');
 
-// --- FONCTION DE CONNEXION ---
-btnLogin.addEventListener('click', () => {
-    signInWithPopup(auth, provider)
-        .then((result) => {
-            const user = result.user;
-            // Vérification du domaine mail
-            if (!user.email.endsWith('@savio-lambersart.com')) {
-                alert("Accès refusé : utilise ton mail @savio-lambersart.com");
-                signOut(auth); // On le déconnecte s'il n'a pas le bon mail
-            }
-        })
-        .catch((error) => {
-            console.error("Erreur de connexion", error);
-        });
-});
-
-// --- FONCTION DE DÉCONNEXION ---
-btnLogout.addEventListener('click', () => {
-    signOut(auth);
-});
-
-// --- SURVEILLANCE DE L'ÉTAT (Gère l'affichage des boutons) ---
+// 5. Gestionnaire d'état de connexion (Le "cerveau" de l'affichage)
 onAuthStateChanged(auth, (user) => {
-    if (user && user.email.endsWith('@savio-lambersart.com')) {
-        // Utilisateur connecté avec le bon mail
-        loggedOutDiv.style.display = 'none';   // Cache "Commencer" en haut
-        loggedInDiv.style.display = 'block';  // Affiche "Déconnexion" en bas
+    if (user) {
+        // Vérification du domaine de l'adresse mail
+        if (user.email.endsWith('@savio-lambersart.com')) {
+            console.log("Utilisateur valide connecté :", user.displayName);
+            
+            // On ajuste l'affichage
+            if (topBarAuth) topBarAuth.style.display = 'none';    // Cache le bouton en haut
+            if (bottomBarAuth) bottomBarAuth.style.display = 'block'; // Montre la déconnexion en bas
+        } else {
+            // Si le mail ne finit pas par le bon domaine, on déconnecte de force
+            alert("Accès restreint. Veuillez utiliser votre compte @savio-lambersart.com");
+            signOut(auth).then(() => {
+                window.location.href = 'index.html';
+            });
+        }
     } else {
-        // Utilisateur déconnecté ou mauvais mail
-        loggedOutDiv.style.display = 'block';
-        loggedInDiv.style.display = 'none';
+        // Personne n'est connecté
+        console.log("Utilisateur non connecté.");
+        if (topBarAuth) topBarAuth.style.display = 'block';   // Montre "Commencer" en haut
+        if (bottomBarAuth) bottomBarAuth.style.display = 'none'; // Cache la déconnexion en bas
     }
 });
+
+// 6. Logique du bouton de déconnexion (Barre du bas)
+if (btnLogout) {
+    btnLogout.addEventListener('click', (e) => {
+        e.preventDefault();
+        signOut(auth).then(() => {
+            console.log("Déconnexion réussie");
+            window.location.href = 'index.html'; // Redirection propre après déconnexion
+        }).catch((error) => {
+            console.error("Erreur lors de la déconnexion :", error);
+        });
+    });
+}
