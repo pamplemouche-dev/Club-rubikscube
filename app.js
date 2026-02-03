@@ -11,12 +11,11 @@ import {
 // 2. Ta configuration Firebase (À compléter avec tes clés)
 const firebaseConfig = {
     apiKey: "AIzaSyB9CSBSLpB_DnXmBcfGm_h_cGGFYVYn2nA",
-    authDomain: "club-rubik.firebaseapp.com",
-    projectId: "club-rubik",
-    storageBucket: "club-rubik.firebasestorage.app",
-    messagingSenderId: "660354395142",
-    appId: "1:660354395142:web:662c0646a37d24755ea787",
-    measurementId: "G-WQRTHDM9B8"
+  authDomain: "club-rubik.firebaseapp.com",
+  projectId: "club-rubik",
+  storageBucket: "club-rubik.firebasestorage.app",
+  messagingSenderId: "660354395142",
+  appId: "1:660354395142:web:662c0646a37d24755ea787",
 };
 
 // 3. Initialisation de Firebase
