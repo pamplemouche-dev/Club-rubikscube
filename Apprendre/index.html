@@ -2,6 +2,11 @@
 <html>
   <head>
     <title>Club Rubik's Cube : Apprendre</title>
+    <style>   
+      body {
+    display: none; /* On cache tout par défaut */
+      }
+    </style>
   </head>
   <body>
         <div class="bottom-navbar">
@@ -12,7 +17,7 @@
       <a href="#settings"><i class="fas fa-cog"></i><span>Réglages</span></a>
       <a href="#logout"><i class="fas fa-right-to-bracket"></i><span>Déconnexion</span></a>
     </div>
-    <script>
+    <script type="module">
       import { auth, onAuthStateChanged } from '../app.js'; // Ajuste le chemin vers ton app.js
 
 onAuthStateChanged(auth, (user) => {
@@ -71,9 +76,7 @@ a:active {
   font-weight: 800;
   font-style: normal;
 }
-      body {
-    display: none; /* On cache tout par défaut */
-}
+   
     </style>
   </body>
 </html>
