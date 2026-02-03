@@ -38,27 +38,6 @@ export const loginEmail = (email, password) => {
         .catch(err => alert("Identifiants incorrects"));
 };
 
-// --- GESTION DYNAMIQUE DES BOUTONS (S'exécute sur l'index) ---
-onAuthStateChanged(auth, (user) => {
-    const topBarAuth = document.getElementById('auth-logged-out'); 
-    const bottomBarAuth = document.getElementById('auth-logged-in'); 
-
-    if (user && user.email.endsWith('@savio-lambersart.com')) {
-        if (topBarAuth) topBarAuth.style.setProperty('display', 'none', 'important');
-        if (bottomBarAuth) {
-            bottomBarAuth.style.setProperty('display', 'block', 'important');
-            // Affiche le nom propre extrait du displayName
-            bottomBarAuth.innerHTML = `
-                <span style="color:white; margin-right:15px;">👤 ${user.displayName || 'Utilisateur'}</span>
-                <button id="btn-logout" class="btn-deconnexion">Déconnexion</button>
-            `;
-            document.getElementById('btn-logout').onclick = () => signOut(auth);
-        }
-    } else {
-        if (topBarAuth) topBarAuth.style.setProperty('display', 'block', 'important');
-        if (bottomBarAuth) bottomBarAuth.style.setProperty('display', 'none', 'important');
-    }
-});
 // Dans ton app.js, garde bien cette partie pour les boutons d'accueil :
 onAuthStateChanged(auth, (user) => {
     const topBarAuth = document.getElementById('auth-logged-out'); 
