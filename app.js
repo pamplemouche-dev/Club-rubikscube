@@ -50,7 +50,7 @@ onAuthStateChanged(auth, (user) => {
             bottomBarAuth.style.display = 'block';
             bottomBarAuth.innerHTML = `
                 <span style="color:white; margin-right:15px;">👤 ${user.displayName || 'Utilisateur'}</span>
-                <button id="btn-logout" class="btn-deconnexion">Déconnexion</button>
+                <a id="btn-logout" class="btn-deconnexion">Déconnexion</a>
             `;
             document.getElementById('btn-logout').onclick = () => signOut(auth);
         }
