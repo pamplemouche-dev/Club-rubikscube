@@ -1,1 +1,44 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Espace Apprendre - Savio</title>
+    <link rel="stylesheet" href="../style.css">
+</head>
+<body>
 
+    <div id="locker">
+        <div class="loader"></div>
+        <p id="locker-status">Vérification de vos accès...</p>
+    </div>
+
+    <main id="protected-content">
+        <h1>Bienvenue dans votre Espace Apprendre</h1>
+        <p>Heureux de vous revoir, <span id="user-name"></span> !</p>
+        </main>
+
+    <script type="module">
+        import { auth, onAuthStateChanged } from '../app.js';
+
+        const locker = document.getElementById('locker');
+        const userNameSpan = document.getElementById('user-name');
+
+        onAuthStateChanged(auth, (user) => {
+            // Vérification de l'utilisateur et du domaine
+            if (user && user.email.endsWith('@savio-lambersart.com')) {
+                // On affiche le nom
+                if (userNameSpan) userNameSpan.innerText = user.displayName || "Utilisateur";
+                
+                // On fait disparaître le masque
+                locker.style.opacity = "0";
+                setTimeout(() => {
+                    locker.style.display = "none";
+                }, 500); // Attend la fin de l'animation
+            } else {
+                // Si pas de session valide, on redirige vers le login
+                window.location.replace('../login.html');
+            }
+        });
+    </script>
+</body>
+</html>
