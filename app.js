@@ -59,3 +59,24 @@ onAuthStateChanged(auth, (user) => {
         if (bottomBarAuth) bottomBarAuth.style.setProperty('display', 'none', 'important');
     }
 });
+// Dans ton app.js, garde bien cette partie pour les boutons d'accueil :
+onAuthStateChanged(auth, (user) => {
+    const topBarAuth = document.getElementById('auth-logged-out'); 
+    const bottomBarAuth = document.getElementById('auth-logged-in'); 
+
+    if (user && user.email.endsWith('@savio-lambersart.com')) {
+        // Gérer les boutons si on est sur index.html
+        if (topBarAuth) topBarAuth.style.display = 'none';
+        if (bottomBarAuth) {
+            bottomBarAuth.style.display = 'block';
+            bottomBarAuth.innerHTML = `
+                <span style="color:white; margin-right:15px;">👤 ${user.displayName || 'Utilisateur'}</span>
+                <button id="btn-logout" class="btn-deconnexion">Déconnexion</button>
+            `;
+            document.getElementById('btn-logout').onclick = () => signOut(auth);
+        }
+    } else {
+        if (topBarAuth) topBarAuth.style.display = 'block';
+        if (bottomBarAuth) bottomBarAuth.style.display = 'none';
+    }
+});
