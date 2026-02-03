@@ -5,44 +5,29 @@
     <title>Connexion - Savio</title>
     <link rel="stylesheet" href="style.css">
 </head>
-<body style="padding:0;">
+<body>
     <div class="login-container">
         <div class="login-card">
-            <h2 id="auth-title">Connexion</h2>
-            <form id="auth-form">
+            <h2>Connexion</h2>
+            <form id="login-form">
                 <input type="email" id="email" placeholder="Email @savio-lambersart.com" required>
                 <input type="password" id="password" placeholder="Mot de passe" required>
-                <button type="submit" id="btn-auth" class="btn-commencer" style="width:100%; margin-top:10px;">Se connecter</button>
+                <button type="submit" class="btn-commencer" style="width:100%; margin-top:10px;">Se connecter</button>
             </form>
             <p style="margin-top:20px;">
-                <a href="#" id="switch-auth" style="color:#4285F4; text-decoration:none;">Pas encore de compte ? S'inscrire</a>
+                Nouveau ? <a href="inscription.html" style="color:#4285F4;">Créer un compte</a>
             </p>
-            <a href="index.html" style="display:block; margin-top:15px; color:gray; font-size:0.8rem;">Retour à l'accueil</a>
+            <a href="index.html" style="display:block; margin-top:15px; color:gray; font-size:0.8rem;">Retour</a>
         </div>
     </div>
 
     <script type="module">
-        import { loginEmail, registerEmail } from './app.js';
-        
-        let isLoginMode = true;
-        const switchBtn = document.getElementById('switch-auth');
-        const authTitle = document.getElementById('auth-title');
-        const btnSubmit = document.getElementById('btn-auth');
-
-        switchBtn.addEventListener('click', (e) => {
-            e.preventDefault();
-            isLoginMode = !isLoginMode;
-            authTitle.innerText = isLoginMode ? "Connexion" : "Création de compte";
-            btnSubmit.innerText = isLoginMode ? "Se connecter" : "S'inscrire";
-            switchBtn.innerText = isLoginMode ? "Pas encore de compte ? S'inscrire" : "Déjà un compte ? Se connecter";
-        });
-
-        document.getElementById('auth-form').addEventListener('submit', (e) => {
+        import { loginEmail } from './app.js';
+        document.getElementById('login-form').addEventListener('submit', (e) => {
             e.preventDefault();
             const email = document.getElementById('email').value;
             const pass = document.getElementById('password').value;
-            if (isLoginMode) { loginEmail(email, pass); } 
-            else { registerEmail(email, pass); }
+            loginEmail(email, pass);
         });
     </script>
 </body>
