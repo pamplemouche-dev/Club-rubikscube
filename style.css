@@ -115,3 +115,14 @@ a:active {
     color: #666;
     font-weight: 500;
 }
+.stats-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    margin-top: 20px;
+    border-top: 1px solid #eee;
+    padding-top: 20px;
+}
+
+.stat-item b { display: block; font-size: 1.2rem; color: #333; }
+.stat-item span { font-size: 0.8rem; color: #888; }
