@@ -4,6 +4,7 @@ import {
     updateProfile, onAuthStateChanged, signOut 
 } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
   apiKey: "AIzaSyB9CSBSLpB_DnXmBcfGm_h_cGGFYVYn2nA",
   authDomain: "club-rubik.firebaseapp.com",
@@ -16,48 +17,55 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
 
-// --- UTILITAIRES ---
+// Utilitaire de nettoyage pour la vérification Nom/Email
 export function nettoyerTexte(str) {
     if (!str) return "";
     return str.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/\s+/g, '');
 }
 
-// --- ACTIONS AUTH ---
+// Inscription
 export const registerEmail = (email, password, name) => {
     createUserWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
             return updateProfile(userCredential.user, { displayName: name });
         })
-        .then(() => window.location.replace('index.html'))
+        .then(() => window.location.replace('/index.html'))
         .catch(err => alert("Erreur : " + err.message));
 };
 
+// Connexion
 export const loginEmail = (email, password) => {
     signInWithEmailAndPassword(auth, email, password)
-        .then(() => window.location.replace('index.html'))
+        .then(() => window.location.replace('/index.html'))
         .catch(err => alert("Identifiants incorrects"));
 };
 
-// Dans ton app.js, garde bien cette partie pour les boutons d'accueil :
+// Gestion de l'affichage dynamique (Top Bar & Bottom Bar)
 onAuthStateChanged(auth, (user) => {
     const topBarAuth = document.getElementById('auth-logged-out'); 
     const bottomBarAuth = document.getElementById('auth-logged-in'); 
 
-    if (user && user.email.endsWith('@savio-lambersart.com')) {
-        // Gérer les boutons si on est sur index.html
+    if (user && user.email.toLowerCase().endsWith('@savio-lambersart.com')) {
         if (topBarAuth) topBarAuth.style.display = 'none';
         if (bottomBarAuth) {
             bottomBarAuth.style.display = 'block';
             bottomBarAuth.innerHTML = `
-                <span style="color:white; margin-right:15px;">👤 ${user.displayName || 'Utilisateur'}</span>
-                <button id="btn-logout" class="btn-deconnexion">Déconnexion</button>
+                <span style="color:white; margin-right:15px; font-family: 'Montserrat', sans-serif; font-weight: 800;">
+                    👤 ${user.displayName || 'Utilisateur'}
+                </span>
+                <a href="#" id="btn-logout" class="btn-deconnexion">
+                    Déconnexion
+                </a>
             `;
-            document.getElementById('btn-logout').onclick = () => signOut(auth);
+            document.getElementById('btn-logout').onclick = (e) => {
+                e.preventDefault();
+                signOut(auth);
+            };
         }
     } else {
         if (topBarAuth) topBarAuth.style.display = 'block';
         if (bottomBarAuth) bottomBarAuth.style.display = 'none';
     }
 });
-// À la fin de app.js
-export { auth, onAuthStateChanged, registerEmail, loginEmail, nettoyerTexte };
+
+export { onAuthStateChanged, signOut };
