@@ -19,6 +19,9 @@
   
 
     <script type="module">
+        const hour = new Date().getHours();
+const greeting = hour < 18 ? "Bonjour" : "Bonsoir";
+document.getElementById('user-display-name').innerText = `${greeting}, ${user.displayName}`;
         window.onerror = function(msg) { alert("Erreur détectée : " + msg); };
         import { auth, onAuthStateChanged } from '/app.js';
 
