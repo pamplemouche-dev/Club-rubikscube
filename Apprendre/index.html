@@ -41,6 +41,9 @@
                 window.location.replace('../login.html');
             }
         });
+        const hour = new Date().getHours();
+const greeting = hour < 18 ? "Bonjour" : "Bonsoir";
+document.getElementById('user-display-name').innerText = `${greeting}, ${user.displayName}`;
     </script>
 </body>
 </html>
