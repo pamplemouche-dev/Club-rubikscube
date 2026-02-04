@@ -59,7 +59,10 @@ onAuthStateChanged(auth, (user) => {
             `;
             document.getElementById('btn-logout').onclick = (e) => {
                 e.preventDefault();
-                signOut(auth);
+                signOut(auth).then(() => {
+        // Vide le cache de la page actuelle et redirige
+        window.location.replace('/login.html');
+    });
             };
         }
     } else {
