@@ -1,10 +1,72 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <link rel="stylesheet" href="../style.css">
-  </head>
-  <body>
-    <h2 class="Title">Bienvenue dans votre éspace profil, <span class="Title" id="user-name"></span> !</p>
-          <script type="module" src="app.js"></script>
-  </body>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profil Joueur - Savio</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body style="font-family: 'Montserrat', sans-serif; background-color: #f8f9fa;">
+
+    <div id="profile-content" class="profile-container">
+        <p style="text-align:center; margin-top:50px;">Chargement du profil...</p>
+    </div>
+
+    <script type="module">
+        import { auth, onAuthStateChanged } from '/app.js';
+
+        const container = document.getElementById('profile-content');
+
+        onAuthStateChanged(auth, (user) => {
+            if (user && user.email.toLowerCase().endsWith('@savio-lambersart.com')) {
+                // --- RENDU CONNECTÉ (PROFIL JOUEUR) ---
+                const userName = user.displayName || user.email.split('@')[0];
+                
+                container.innerHTML = `
+                    <div class="profile-card">
+                        <div class="level-circle">5</div>
+                        
+                        <p class="user-title">Explorateur de Savio</p>
+                        <h2 style="margin: 10px 0;">${userName}</h2>
+
+                        <div class="exp-section">
+                            <div class="exp-bar-bg">
+                                <div id="exp-fill" class="exp-bar-fill" style="width: 74%;"></div>
+                            </div>
+                            <div style="display:flex; justify-content:space-between; font-size:0.75rem; font-weight:600; color:#666;">
+                                <span>740 XP</span>
+                                <span>1000 XP</span>
+                            </div>
+                        </div>
+
+                        <div class="stats-grid">
+                            <div class="stat-item">
+                                <b>12</b>
+                                <span>Leçons</span>
+                            </div>
+                            <div class="stat-item">
+                                <b>🏆 4</b>
+                                <span>Badges</span>
+                            </div>
+                        </div>
+                    </div>
+                    <button onclick="window.location.href='/index.html'" style="margin-top:20px; width:100%; padding:15px; border-radius:15px; border:none; background:#333; color:white; font-family:Montserrat; font-weight:600; cursor:pointer;">
+                        Retour à l'accueil
+                    </button>
+                `;
+            } else {
+                // --- RENDU NON CONNECTÉ (MESSAGE SIMPLE) ---
+                container.innerHTML = `
+                    <div style="text-align:center; padding: 50px 20px;">
+                        <div style="font-size: 50px; margin-bottom: 20px;">👤</div>
+                        <h2 style="font-weight: 800;">Non connecté</h2>
+                        <p style="color: #666; margin-bottom: 30px;">Veuillez vous connecter avec votre compte @savio-lambersart.com pour voir votre profil.</p>
+                        <a href="/login.html" style="display:inline-block; padding:15px 30px; background:#4285F4; color:white; text-decoration:none; border-radius:12px; font-weight:600;">Se connecter</a>
+                    </div>
+                `;
+            }
+        });
+    </script>
+</body>
 </html>
