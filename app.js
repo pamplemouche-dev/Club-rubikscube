@@ -4,12 +4,10 @@ import {
     updateProfile, onAuthStateChanged, signOut 
 } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
-// Importations pour Firestore (Base de données)
 import { 
     getFirestore, doc, getDoc, setDoc, updateDoc, increment 
 } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-// Configuration extraite de ton image
 const firebaseConfig = {
     apiKey: "AIzaSyB9CSBSLpB_DnXMbcFGm_h_cGGfYVYn2nA",
     authDomain: "club-rubik.firebaseapp.com",
@@ -17,73 +15,65 @@ const firebaseConfig = {
     storageBucket: "club-rubik.firebasestorage.app",
     messagingSenderId: "660354395142",
     appId: "1:660354395142:web:662c0646a37d24755ea787",
-    
+    measurementId: "G-WQRTHDM9B8"
 };
 
-// Initialisation
 const app = initializeApp(firebaseConfig);
-export const auth = getAuth(app);
-export const db = getFirestore(app);
+const auth = getAuth(app);
+const db = getFirestore(app);
 
-// --- UTILITAIRES ---
+// Utilitaires
 export function nettoyerTexte(str) {
     if (!str) return "";
     return str.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/\s+/g, '');
 }
 
-// --- LOGIQUE D'INSCRIPTION AVEC FIRESTORE ---
-export const registerEmail = (email, password, name) => {
-    if (!email.endsWith('@savio-lambersart.com')) {
-        alert("Utilisez une adresse @savio-lambersart.com");
-        return;
+// Inscription
+export const registerEmail = async (email, password, name) => {
+    try {
+        const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+        const user = userCredential.user;
+        await updateProfile(user, { displayName: name });
+        
+        await setDoc(doc(db, "users", user.uid), {
+            name: name,
+            email: email,
+            level: 1,
+            xp: 0,
+            lessonsCompleted: 0,
+            badges: [],
+            createdAt: new Date()
+        });
+        window.location.replace('/index.html');
+    } catch (err) {
+        alert("Erreur d'inscription : " + err.message);
     }
-
-    createUserWithEmailAndPassword(auth, email, password)
-        .then(async (userCredential) => {
-            const user = userCredential.user;
-            
-            // 1. Mise à jour du profil Auth
-            await updateProfile(user, { displayName: name });
-            
-            // 2. Création du document dans Firestore (Données de jeu)
-            await setDoc(doc(db, "users", user.uid), {
-                name: name,
-                email: email,
-                level: 1,
-                xp: 0,
-                lessonsCompleted: 0,
-                badges: [],
-                createdAt: new Date()
-            });
-        })
-        .then(() => window.location.replace('/index.html'))
-        .catch(err => alert("Erreur d'inscription : " + err.message));
 };
 
-// --- CONNEXION ---
-export const loginEmail = (email, password) => {
-    signInWithEmailAndPassword(auth, email, password)
-        .then(() => window.location.replace('/index.html'))
-        .catch(err => alert("Identifiants incorrects ou utilisateur inconnu."));
+// Connexion
+export const loginEmail = async (email, password) => {
+    try {
+        await signInWithEmailAndPassword(auth, email, password);
+        window.location.replace('/index.html');
+    } catch (err) {
+        alert("Identifiants incorrects");
+    }
 };
 
-// --- GESTION DE L'INTERFACE (Barre de navigation & Montserrat) ---
+// Interface dynamique
 onAuthStateChanged(auth, (user) => {
     const topBarAuth = document.getElementById('auth-logged-out'); 
     const bottomBarAuth = document.getElementById('auth-logged-in'); 
 
     if (user && user.email.toLowerCase().endsWith('@savio-lambersart.com')) {
         if (topBarAuth) topBarAuth.style.display = 'none';
-        
         if (bottomBarAuth) {
             bottomBarAuth.style.display = 'block';
             bottomBarAuth.innerHTML = `
-                <span style="color:white; margin-right:15px; font-family:'Montserrat',sans-serif; font-weight:500;">
+                <span style="color:white; margin-right:15px; font-family:'Montserrat',sans-serif;">
                     👤 ${user.displayName || 'Élève'}
                 </span>
-                <a href="#" id="btn-logout" class="btn-deconnexion" style="text-decoration:none; font-family:'Montserrat'; cursor:pointer; color:#ff4d4d;">
-                    Déconnexion
-                </a>
+                <a href="#" id="btn-logout" style="color:#ff4d4d; text-decoration:none; font-weight:600;">Déconnexion</a>
             `;
             document.getElementById('btn-logout').onclick = (e) => {
                 e.preventDefault();
@@ -96,5 +86,5 @@ onAuthStateChanged(auth, (user) => {
     }
 });
 
-// Exportations pour les autres pages (Profile, Apprendre, etc.)
-export { doc, getDoc, updateDoc, increment, onAuthStateChanged, signOut };
+// Exports pour les autres fichiers
+export { auth, db, doc, getDoc, updateDoc, increment, onAuthStateChanged };
