@@ -17,7 +17,7 @@ const firebaseConfig = {
     storageBucket: "club-rubik.firebasestorage.app",
     messagingSenderId: "660354395142",
     appId: "1:660354395142:web:662c0646a37d24755ea787",
-    measurementId: "G-WQRTHDM9B8"
+    
 };
 
 // Initialisation
